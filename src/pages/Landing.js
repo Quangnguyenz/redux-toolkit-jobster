@@ -1,12 +1,12 @@
 import React from 'react'
-import logo from '../assets/images/logo.svg'
+import { Logo } from '../components'
 import main from '../assets/images/main.svg'
-import styled from 'styled-components'
+import Wrapper from '../assets/wrappers/Testing'
 const Landing = () => {
     return (
         <Wrapper>
             <nav>
-                <img src={logo} alt="logo" className='logo' />
+                <Logo />
             </nav>
             <div className="container page">
                 <div className="info">
@@ -19,16 +19,5 @@ const Landing = () => {
         </Wrapper>
     )
 }
-
-const Wrapper = styled.main`
-nav{
-    width: var(--fluid-width);
-    max-width: var(--max-width);
-    margin: auto 0;
-    height: var(--nav-height);
-    display: flex;
-    align-items: center;
-}
-`
 
 export default Landing
