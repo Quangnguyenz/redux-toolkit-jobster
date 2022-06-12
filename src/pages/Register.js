@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Logo } from '../components';
+import { Logo, FormRow } from '../components';
 import Wrapper from '../assets/wrappers/RegisterPage';
 
 const initialState = {
@@ -13,17 +13,24 @@ const initialState = {
 function Register() {
     const [values, setValues] = useState(initialState)
 
-    const handleChance = (e) => {
-        console.log(e.target)
+    const handleChange = (e) => {
+        console.log(e.target.name)
     }
 
     const onSubmit = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         console.log(e.target)
     }
 
     return (
-        <div>Register</div>
+        <Wrapper className='full-page'>
+            <form className='form' onSubmit={onSubmit}>
+                <Logo />
+                <h3>login</h3>
+                <FormRow />
+                <button type='submit' className='btn btn-block'>submit</button>
+            </form>
+        </Wrapper>
     )
 }
 
