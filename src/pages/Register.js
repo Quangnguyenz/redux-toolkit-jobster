@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { Logo, FormRow } from '../components';
 import Wrapper from '../assets/wrappers/RegisterPage';
+import { toast } from 'react-toastify';
 
 const initialState = {
     name: '',
@@ -23,8 +24,8 @@ function Register() {
     const onSubmit = (e) => {
         e.preventDefault();
         const { name, email, password, isMember } = values
-        if (!email || !password) {
-            console.log('Please fill required info');
+        if (!email || !password || (!isMember && !name)) {
+            toast('Please fill required info');
         }
     }
 
@@ -39,8 +40,8 @@ function Register() {
                 <h3>{values.isMember ? 'login' : 'register'}</h3>
 
                 {/* name */}
-                <FormRow type="text" name="name" value={values.name} handleChange={handleChange} labelText="name" />
-
+                {!values.isMember &&
+                    <FormRow type="text" name="name" value={values.name} handleChange={handleChange} labelText="name" />}
                 {/* email */}
                 <FormRow type="email" name="email" value={values.email} handleChange={handleChange} labelText="email" />
 
@@ -50,7 +51,7 @@ function Register() {
                 <button type='submit' className='btn btn-block'>submit</button>
 
                 <p>
-                    {values.isMember ? 'Not A Member?' : 'Already A Member?'}
+                    {values.isMember ? 'Already a member?' : 'Not a Member?'}
                     <button type="button" onClick={toggleMember} className="member-btn">
                         {values.isMember ? 'Register' : 'Login'}
                     </button>
