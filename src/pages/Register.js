@@ -25,7 +25,7 @@ function Register() {
         e.preventDefault();
         const { name, email, password, isMember } = values
         if (!email || !password || (!isMember && !name)) {
-            toast('Please fill required info');
+            toast.error('Please fill required info');
         }
     }
 
