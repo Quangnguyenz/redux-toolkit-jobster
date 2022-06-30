@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react';
 import { Logo, FormRow } from '../components';
 import Wrapper from '../assets/wrappers/RegisterPage';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+
 
 const initialState = {
     name: '',
@@ -13,7 +16,8 @@ const initialState = {
 
 function Register() {
     const [values, setValues] = useState(initialState)
-
+    const { user, isLoading } = useSelector(store => store.user)
+    const dispatch = useDispatch();
     const handleChange = (e) => {
         const name = e.target.name
         const value = e.target.value
