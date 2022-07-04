@@ -12,7 +12,12 @@ const userSlice = createSlice({
 })
 
 export const registerUser = createAsyncThunk('user/registerUser', async (user, thunkAPI) => {
-    console.log(`Register User ${JSON.stringify(user)}`);
+    try {
+        const resp = await customFetch.post('/auth/testingRegister', user)
+        console.log(resp);
+    } catch (error) {
+        console.log(error.response);
+    }
 })
 
 export const loginUser = createAsyncThunk('user/loginUser', async (user, thunkAPI) => {
