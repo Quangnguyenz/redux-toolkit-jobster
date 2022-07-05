@@ -59,7 +59,7 @@ function Register() {
                 {/* password */}
                 <FormRow type="password" name="password" value={values.password} handleChange={handleChange} labelText="password" />
 
-                <button type='submit' className='btn btn-block'>submit</button>
+                <button type='submit' className='btn btn-block' disable={isLoading}>submit</button>
 
                 <p>
                     {values.isMember ? 'Already a member?' : 'Not a Member?'}
