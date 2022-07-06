@@ -17,9 +17,24 @@ const userSlice = createSlice({
             const { user } = payload
             state.isLoading = false
             state.user = user
+            toast.success(`Hello There ${user.name}`)
         },
-        [registerUser.rejected]: (state) => {
+        [registerUser.rejected]: (state, { payload }) => {
+            state.isLoading = false;
+            toast.error(payload);
+        },
+        [loginUser.pending]: (state) => {
             state.isLoading = true
+        },
+        [loginUser.fulfilled]: (state, { payload }) => {
+            const { user } = payload
+            state.isLoading = false
+            state.user = user
+            toast.success(`Welcome Back ${user.name}`)
+        },
+        [loginUser.rejected]: (state, { payload }) => {
+            state.isLoading = false;
+            toast.error(payload);
         }
     }
 })
@@ -34,8 +49,14 @@ export const registerUser = createAsyncThunk('user/registerUser', async (user, t
 })
 
 export const loginUser = createAsyncThunk('user/loginUser', async (user, thunkAPI) => {
-    console.log(`Login User ${JSON.stringify(user)}`);
+    try {
+        const resp = await customFetch.post('/auth/login', user)
+        return resp.data
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response.data.msg)
+    }
 })
+
 
 export default userSlice.reducer;
 
