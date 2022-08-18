@@ -10,10 +10,18 @@ const Profile = () => {
     const dispatch = useDispatch()
     const [userData, setUserData] = useState({
         name: user?.name || '',
-        name: user?.name || '',
-        name: user?.name || '',
-        name: user?.name || '',
+        email: user?.name || '',
+        lastName: user?.name || '',
+        location: user?.name || '',
     })
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!name || !email || !lastName || !location) {
+            toast.error('please fill out all fields')
+        }
+    }
+
     return (
         <h1>Profile</h1>
     )
