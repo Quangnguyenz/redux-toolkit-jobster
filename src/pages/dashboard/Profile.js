@@ -10,9 +10,9 @@ const Profile = () => {
     const dispatch = useDispatch()
     const [userData, setUserData] = useState({
         name: user?.name || '',
-        email: user?.name || '',
-        lastName: user?.name || '',
-        location: user?.name || '',
+        email: user?.email || '',
+        lastName: user?.lastName || '',
+        location: user?.location || '',
     })
 
     const handleSubmit = (e) => {
@@ -22,8 +22,21 @@ const Profile = () => {
         }
     }
 
+    const handleChange = (e) => {
+        const name = e.target.name
+        const value = e.target.value
+        setUserData({ ...userData, [name]: value })
+    }
+
     return (
-        <h1>Profile</h1>
+        <Wrapper>
+            <form className='form' onSubmit={handleSubmit}>
+                <h3>profile</h3>
+                <div className="form-center">
+                    <FormRow type="text" name="name" value={userData.name} handleChange={handleChange} />
+                </div>
+            </form>
+        </Wrapper>
     )
 }
 
