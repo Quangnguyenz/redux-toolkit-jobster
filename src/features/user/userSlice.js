@@ -49,6 +49,20 @@ const userSlice = createSlice({
         [loginUser.rejected]: (state, { payload }) => {
             state.isLoading = false;
             toast.error(payload);
+        },
+        [updateUser.pending]: (state) => {
+            state.isLoading = true
+        },
+        [updateUser.fulfilled]: (state, { payload }) => {
+            const { user } = payload
+            state.isLoading = false
+            state.user = user
+            addUserToLocalStorage(user)
+            toast.success(`User Updated`)
+        },
+        [updateUser.rejected]: (state, { payload }) => {
+            state.isLoading = false;
+            toast.error(payload);
         }
     }
 })
