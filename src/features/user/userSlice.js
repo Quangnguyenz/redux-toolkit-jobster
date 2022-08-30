@@ -1,13 +1,28 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify"
 import { addUserToLocalStorage, getUserFromLocalStorage, removeUserFromLocalStorage } from "../../utils/localStorage";
-import { registerUserThunk } from "./userThunk";
+import { loginUserThunk, registerUserThunk, updateUserThunk } from "./userThunk";
 
 const initialState = {
     isLoading: false,
     isSidebarOpen: false,
     user: getUserFromLocalStorage(),
 }
+
+export const registerUser = createAsyncThunk('user/registerUser', async (user, thunkAPI) => {
+    return registerUserThunk('/auth/register', user, thunkAPI)
+})
+
+export const loginUser = createAsyncThunk('user/loginUser', async (user, thunkAPI) => {
+    return loginUserThunk('/auth/login', user, thunkAPI)
+})
+
+export const updateUser = createAsyncThunk(
+    'user/updateUser', async (user, thunkAPI) => {
+        return updateUserThunk('/auth/updateUser', user, thunkAPI)
+    }
+)
+
 
 const userSlice = createSlice({
     name: 'user',
@@ -67,39 +82,6 @@ const userSlice = createSlice({
         }
     }
 })
-
-export const registerUser = createAsyncThunk('user/registerUser', async (user, thunkAPI) => {
-    return registerUserThunk('auth/register', user, thunkAPI)
-})
-
-export const loginUser = createAsyncThunk('user/loginUser', async (user, thunkAPI) => {
-    try {
-        const resp = await customFetch.post('/auth/login', user)
-        return resp.data
-    } catch (error) {
-        return thunkAPI.rejectWithValue(error.response.data.msg)
-    }
-})
-
-export const updateUser = createAsyncThunk(
-    'user/updateUser', async (user, thunkAPI) => {
-        try {
-            const resp = await customFetch.patch('/auth/updateUser', user, {
-                headers: {
-                    authorization: `Bearer ${thunkAPI.getState().user.user.token}`
-                }
-            })
-            return resp.data
-        } catch (error) {
-            if (error.response.status === 401) {
-                thunkAPI.dispatch(logoutUser)
-                return thunkAPI.rejectWithValue('Unauthorized! Logging Out...')
-            }
-            return thunkAPI.rejectWithValue(error.response.data.msg)
-        }
-    }
-)
-
 
 export const { toggleSidebar, logoutUser } = userSlice.actions;
 export default userSlice.reducer;
