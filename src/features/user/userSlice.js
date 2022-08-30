@@ -31,7 +31,7 @@ const userSlice = createSlice({
         toggleSidebar: (state) => {
             state.isSidebarOpen = !state.isSidebarOpen
         },
-        logoutUser: () => {
+        logoutUser: (state) => {
             state.user = null
             state.isSidebarOpen = false
             removeUserFromLocalStorage()

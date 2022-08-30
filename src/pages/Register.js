@@ -5,9 +5,8 @@ import Wrapper from '../assets/wrappers/RegisterPage';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { registerUser } from '../features/user/userSlice';
+import { loginUser, registerUser } from '../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
-
 
 const initialState = {
     name: '',
