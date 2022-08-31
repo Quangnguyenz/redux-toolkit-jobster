@@ -19,7 +19,7 @@ function Register() {
     const [values, setValues] = useState(initialState)
     const { user, isLoading } = useSelector(store => store.user)
     const dispatch = useDispatch();
-    const navigate = useNavigate
+    const navigate = useNavigate();
     const handleChange = (e) => {
         const name = e.target.name
         const value = e.target.value
