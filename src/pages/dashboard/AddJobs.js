@@ -31,7 +31,11 @@ const AddJobs = () => {
           {/* company */}
           <FormRow type="text" name='company' value={company} handleChange={handleJobInput}></FormRow>
           {/* job location */}
-          <FormRow type="text" name='jobLocation' value={jobLocation} handleChange={handleJobInput}></FormRow>
+          <FormRow type="text" name='jobLocation' value={jobLocation} handleChange={handleJobInput} labelText='Job Location'></FormRow>
+          <div className="btn-container">
+            <button type='button' className='btn btn-block clear-btn' onClick={() => console.log('clear values')}>Clear</button>
+            <button type='submit' className='btn btn-block submit-btn' onClick={handleSubmit} disabled={isLoading}>Submit</button>
+          </div>
         </div>
       </form>
     </Wrapper>
