@@ -9,7 +9,7 @@ const SmallSidebar = () => {
     const { isSidebarOpen } = useSelector((store) => store.user)
     const dispatch = useDispatch();
     const toggle = () => {
-        dispatch(toggleSidebar)
+        dispatch(toggleSidebar())
     }
     return (
         <Wrapper>

@@ -8,13 +8,12 @@ import { useDispatch } from 'react-redux';
 import { toggleSidebar, logoutUser } from '../features/user/userSlice';
 const Navbar = () => {
     const [showLogout, setShowLogout] = useState(false)
-    const user = useSelector((store) => store.user)
+    const { user, isSidebarOpen } = useSelector((store) => store.user)
     const dispatch = useDispatch()
 
     const toggle = () => {
-        dispatch(toggleSidebar)
+        dispatch(toggleSidebar())
     }
-
     return (
         <Wrapper>
             <div className="nav-center">
