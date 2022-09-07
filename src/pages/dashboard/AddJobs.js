@@ -35,7 +35,7 @@ const AddJobs = () => {
           {/* status */}
           <FormRowSelect name="status" value={status} handleChange={handleJobInput} list={statusOptions} />
           {/* job type */}
-          <FormRowSelect name="JobType" value={jobType} handleChange={handleJobInput} list={jobTypeOptions} labelText='Job Type' />
+          <FormRowSelect name="jobType" value={jobType} handleChange={handleJobInput} list={jobTypeOptions} labelText='Job Type' />
           <div className="btn-container">
             <button type='button' className='btn btn-block clear-btn' onClick={() => console.log('clear values')}>Clear</button>
             <button type='submit' className='btn btn-block submit-btn' onClick={handleSubmit} disabled={isLoading}>Submit</button>
