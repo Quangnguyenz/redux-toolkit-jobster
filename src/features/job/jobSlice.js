@@ -21,7 +21,7 @@ export const createJob = createAsyncThunk('job/createjob', async (job, thunkAPI)
     try {
         const resp = await customFetch.post('/job', job, {
             headers: {
-                authorization: `Bearer: ${thunkAPI.getState().user.user.token}`
+                authorization: `Bearer ${thunkAPI.getState().user.user.token}`
             }
         })
         thunkAPI.dispatch(clearValue())
@@ -42,13 +42,23 @@ const jobSlice = createSlice({
             state[name] = value
         },
         clearValue: () => {
-            return initialState
-        }
+            return {
+                ...initialState, jobLocation: getUserFromLocalStorage()?.location || ''
+            }
+        },
     },
     extraReducers: {
         [createJob.pending]: (state) => {
             state.isLoading = true
-        }
+        },
+        [createJob.fulfilled]: (state) => {
+            state.isLoading = false
+            toast.success('Job Created')
+        },
+        [createJob.rejected]: (state, { payload }) => {
+            state.isLoading = false
+            toast.error(payload)
+        },
     }
 
 })
