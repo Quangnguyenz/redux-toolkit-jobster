@@ -6,7 +6,26 @@ import { useDispatch } from 'react-redux';
 
 const Job = ({ _id, position, company, jobLocation, jobType, createdAt, status }) => {
     return (
-        <h2>Job</h2>
+        <Wrapper>
+            <header>
+                <div className="main-icon">{company.charAt(0)}</div>
+                <div className="info">
+                    <h5>{position}</h5>
+                    <p>{company}</p>
+                </div>
+            </header>
+            <div className="content">
+                <div className="content-center">
+                    <h4>more content</h4>
+                    <div className={`status ${status}`}>{status}</div>
+                </div>
+                <footer>
+                    <div className="actions">
+                        <Link to='/add-job' className='btn edit-btn' onClick={() => console.log('edit job')}></Link>
+                    </div>
+                </footer>
+            </div>
+        </Wrapper>
     )
 }
 
