@@ -29,8 +29,6 @@ export const getAllJobs = createAsyncThunk('allJobs/getJobs', async (_, thunkAPI
                 authorization: `Bearer ${thunkAPI.getState().user.user.token}`
             }
         })
-        console.log('called');
-        console.log(resp.data);
         return resp.data
     } catch (error) {
         return thunkAPI.rejectWithValue('there was an error')
@@ -40,6 +38,15 @@ export const getAllJobs = createAsyncThunk('allJobs/getJobs', async (_, thunkAPI
 const allJobSlice = createSlice({
     name: 'allJobs',
     initialState,
+    reducers: {
+        showLoading: (state) => {
+            state.isLoading = true;
+        },
+        hideLoading: (state) => {
+            state.isLoading = false
+        }
+
+    },
     extraReducers: {
         [getAllJobs.pending]: (state) => {
             state.isLoading = true
@@ -56,5 +63,6 @@ const allJobSlice = createSlice({
 })
 
 
+export const { showLoading, hideLoading } = allJobSlice.actions
 export default allJobSlice.reducer
 
