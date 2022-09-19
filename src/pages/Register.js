@@ -65,7 +65,9 @@ function Register() {
                 {/* password */}
                 <FormRow type="password" name="password" value={values.password} handleChange={handleChange} labelText="password" />
 
-                <button type='submit' className='btn btn-block' disable={isLoading ? 'loading' : 'submit'}>submit</button>
+                <button type='submit' className='btn btn-block' disable={isLoading}>{isLoading ? "loading..." : "submit"}</button>
+
+                <button type='button' className='btn btn-block btn-hipster' disable={isLoading} onClick={() => dispatch(loginUser({ name: "testUser@test.com", password: "secret" }))}>{isLoading ? "loading..." : "demo app"}</button>
 
                 <p>
                     {values.isMember ? 'Already a member?' : 'Not a Member?'}

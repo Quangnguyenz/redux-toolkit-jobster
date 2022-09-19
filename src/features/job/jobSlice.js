@@ -4,6 +4,7 @@ import customFetch from '../../utils/axios';
 import { getUserFromLocalStorage } from '../../utils/localStorage';
 import { logoutUser } from '../user/userSlice';
 import { getAllJobs, hideLoading, showLoading } from '../allJobs/allJobSlice';
+import { createJobThunk, editJobThunk, deleteJobThunk } from './jobThunk';
 
 const initialState = {
     isLoading: false,
@@ -18,38 +19,13 @@ const initialState = {
     editJobId: '',
 };
 
-export const createJob = createAsyncThunk('job/createjob', async (job, thunkAPI) => {
-    try {
-        const resp = await customFetch.post('/jobs', job, {
-            headers: {
-                authorization: `Bearer ${thunkAPI.getState().user.user.token}`
-            }
-        })
-        thunkAPI.dispatch(clearValue())
-    } catch (error) {
-        if (error.response.status === 401) {
-            thunkAPI.dispatch(logoutUser())
-            return thunkAPI.rejectWithValue('Unauthorized! Logging out')
-        }
-        return thunkAPI.rejectWithValue(error.response.data.msg)
-    }
-})
+export const createJob = createAsyncThunk('job/createjob', createJobThunk)
 
-export const deleteJob = createAsyncThunk('job/deleteJob', async (jobId, thunkAPI) => {
-    thunkAPI.dispatch(showLoading());
-    try {
-        const resp = await customFetch.delete(`/jobs/${jobId}`, {
-            headers: {
-                authorization: `Bearer ${thunkAPI.getState().user.user.token}`
-            }
-        })
-        thunkAPI.dispatch(getAllJobs())
-        return resp.data.msg
-    } catch (e) {
-        thunkAPI.dispatch(hideLoading())
-        return thunkAPI.rejectWithValue(e.response.data.msg)
-    }
-})
+export const deleteJob = createAsyncThunk('job/deleteJob', deleteJobThunk)
+
+export const editJob = createAsyncThunk('job/editJob', editJobThunk)
+
+
 
 const jobSlice = createSlice({
     name: 'job',
@@ -83,6 +59,17 @@ const jobSlice = createSlice({
             toast.success(payload)
         },
         [deleteJob.rejected]: (state, { payload }) => {
+            toast.error(payload)
+        },
+        [editJob.pending]: (state) => {
+            state.isLoading = true
+        },
+        [editJob.fulfilled]: (state) => {
+            state.isLoading = false
+            toast.success('Job Modified')
+        },
+        [editJob.rejected]: (state, { payload }) => {
+            state.isLoading = false
             toast.error(payload)
         },
     }
