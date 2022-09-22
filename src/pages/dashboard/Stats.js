@@ -2,13 +2,15 @@ import React from 'react'
 import { useEffect } from 'react';
 import { StatsContainer, Loading, ChartsContainer } from '../../components';
 import { useDispatch, useSelector } from 'react-redux';
-import { showStats } from '../../features/allJobs/allJobsSlice';
+import { showStats } from '../../features/allJobs/allJobSlice';
+
+
 
 const Stats = () => {
     const { isLoading, monthlyApplication } = useSelector((store) => store.allJobs)
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(showStats)
+        dispatch(showStats())
     }, [])
     return (
         <>

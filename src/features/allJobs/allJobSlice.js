@@ -35,6 +35,16 @@ export const getAllJobs = createAsyncThunk('allJobs/getJobs', async (_, thunkAPI
     }
 })
 
+export const showStats = createAsyncThunk('allJobs/showStats', async (_, thunkAPI) => {
+    try {
+        const resp = await customFetch.get('/jobs/stats')
+        console.log(resp.data);
+        return resp.data
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response.data.nsg)
+    }
+})
+
 const allJobSlice = createSlice({
     name: 'allJobs',
     initialState,
@@ -59,6 +69,19 @@ const allJobSlice = createSlice({
             state.isLoading = false
             toast.error(payload)
         },
+        [showStats.pending]: (state) => {
+            state.isLoading = true
+        },
+        [showStats.fulfilled]: (state, { payload }) => {
+            state.isLoading = false
+            state.stats = payload.defaultStats
+            state.monthlyApplications = payload.monthlyApplications
+        },
+        [showStats.pending]: (state, { payload }) => {
+            state.isLoading = false
+            toast.error(payload)
+        },
+
     }
 })
 
