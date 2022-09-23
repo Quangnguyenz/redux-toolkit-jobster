@@ -1,5 +1,5 @@
 import React from 'react'
-import Wrapper from '../assets/wrapper/StatItems'
+import Wrapper from '../assets/wrappers/StatItem'
 const StatItem = ({ count, title, icon, color, bcg }) => {
     return (
         <Wrapper color={color} bcg={bcg}>
