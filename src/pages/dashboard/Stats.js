@@ -7,7 +7,7 @@ import { showStats } from '../../features/allJobs/allJobSlice';
 
 
 const Stats = () => {
-    const { isLoading, monthlyApplication } = useSelector((store) => store.allJobs)
+    const { isLoading, monthlyApplications } = useSelector((store) => store.allJobs)
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(showStats())
@@ -15,7 +15,7 @@ const Stats = () => {
     return (
         <>
             <StatsContainer />
-            {monthlyApplication.length > 0 && <ChartsContainer />}
+            {monthlyApplications.length > 0 && <ChartsContainer />}
         </>
     )
 }
