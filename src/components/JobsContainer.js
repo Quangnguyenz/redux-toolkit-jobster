@@ -5,13 +5,22 @@ import Loading from './Loading'
 import Job from './Job'
 import { getAllJobs } from '../features/allJobs/allJobSlice'
 import { useEffect } from 'react'
+import PageBtnContainer from './PageBtnContainer'
+
+
 const JobsContainer = () => {
-  const { jobs, isLoading } = useSelector((store) => store.allJobs)
+  const { jobs, isLoading, page, totalJobs, numOfPages, search, searchStatus, searchType, sort } = useSelector((store) => store.allJobs)
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(getAllJobs())
-  }, [])
+  }, [
+    page,
+    search,
+    searchStatus,
+    searchType,
+    sort
+  ])
 
   if (isLoading) {
     return <Loading center />
@@ -25,13 +34,13 @@ const JobsContainer = () => {
 
   return (
     <Wrapper>
-      <h5>Job Info</h5>
+      <h5>{totalJobs} job{totalJobs > 1 && 's'} Found</h5>
       <div className="jobs">
         {jobs.map((job) => {
-          console.log(job);
           return <Job key={job._id} {...job}></Job>
         })}
       </div>
+      {numOfPages > 1 && <PageBtnContainer />}
     </Wrapper>
   )
 }

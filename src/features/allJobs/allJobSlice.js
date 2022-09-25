@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import customFetch from '../../utils/axios';
+import customFetch, { checkForUnauthorizedResponse } from '../../utils/axios';
 
 const initialFiltersState = {
     search: '',
@@ -22,26 +22,34 @@ const initialState = {
 };
 
 export const getAllJobs = createAsyncThunk('allJobs/getJobs', async (_, thunkAPI) => {
-    let url = '/jobs'
+    const { page, search, searchStatus, searchType, sort } = thunkAPI.getState().allJobs
+    let url = `/jobs?status=${searchStatus}&jobType=${searchType}&sort=${sort}&page=${page}`
+    if (search) {
+        url += `&search=${search}`
+    }
     try {
         const resp = await customFetch.get(url, {
             headers: {
                 authorization: `Bearer ${thunkAPI.getState().user.user.token}`
             }
         })
+
         return resp.data
     } catch (error) {
-        return thunkAPI.rejectWithValue('there was an error')
+        return checkForUnauthorizedResponse(error, thunkAPI)
     }
 })
 
 export const showStats = createAsyncThunk('allJobs/showStats', async (_, thunkAPI) => {
     try {
-        const resp = await customFetch.get('/jobs/stats')
-        console.log(resp.data);
+        const resp = await customFetch.get('/jobs/stats', {
+            headers: {
+                authorization: `Bearer ${thunkAPI.getState().user.user.token}`
+            }
+        })
         return resp.data
     } catch (error) {
-        return thunkAPI.rejectWithValue(error.response.data.nsg)
+        return checkForUnauthorizedResponse(error, thunkAPI)
     }
 })
 
@@ -54,8 +62,18 @@ const allJobSlice = createSlice({
         },
         hideLoading: (state) => {
             state.isLoading = false
-        }
-
+        },
+        handleChange: (state, { payload: { name, value } }) => {
+            state.page = 1
+            state[name] = value
+        },
+        clearFilter: (state) => {
+            return { ...state, ...initialFiltersState }
+        },
+        changePage: (state, { payload }) => {
+            state.page = payload
+        },
+        clearAllJobState: (state) => initialState
     },
     extraReducers: {
         [getAllJobs.pending]: (state) => {
@@ -64,6 +82,8 @@ const allJobSlice = createSlice({
         [getAllJobs.fulfilled]: (state, { payload }) => {
             state.isLoading = false
             state.jobs = payload.jobs
+            state.numOfPages = payload.numOfPages
+            state.totalJobs = payload.totalJobs
         },
         [getAllJobs.pending]: (state, { payload }) => {
             state.isLoading = false
@@ -82,10 +102,11 @@ const allJobSlice = createSlice({
             toast.error(payload)
         },
 
+
     }
 })
 
 
-export const { showLoading, hideLoading } = allJobSlice.actions
+export const { showLoading, hideLoading, handleChange, changePage, clearAllJobState } = allJobSlice.actions
 export default allJobSlice.reducer
 
