@@ -32,7 +32,7 @@ const Navbar = () => {
                         <FaCaretDown />
                     </button>
                     <div className={showLogout ? "dropdown show-dropdown" : 'dropdown'}>
-                        <button type='button' className='dropdown-btn' onClick={() => dispatch(clearStore())}>
+                        <button type='button' className='dropdown-btn' onClick={() => dispatch(clearStore('Logging out...'))}>
                             logout
                         </button>
                     </div>

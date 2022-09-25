@@ -7,14 +7,14 @@ import { useSelector } from 'react-redux';
 
 const ChartsContainer = () => {
     const [barChart, setBarChart] = useState(true)
-    const { monthlyApplication: data } = useSelector((store) => store.allJobs)
+    const { monthlyApplications: data } = useSelector((store) => store.allJobs)
     return (
         <Wrapper>
             <h4>Monthhly Applications</h4>
             <button type='button' onClick={() => setBarChart(!barChart)}>
                 {barChart ? 'Switch to Area Chart?' : 'Switch to Bar Chart?'}
             </button>
-            {BarChart ? <BarChart data={data} /> : <AreaChart data={data} />}
+            {barChart ? <BarChart data={data} /> : <AreaChart data={data} />}
         </Wrapper>
     )
 }

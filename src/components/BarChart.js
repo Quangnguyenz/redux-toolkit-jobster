@@ -1,3 +1,4 @@
+import React from 'react'
 import {
     BarChart,
     Bar,
@@ -8,17 +9,17 @@ import {
     ResponsiveContainer,
 } from 'recharts';
 
-import React from 'react'
 
 const BarChartComponent = ({ data }) => {
+    console.log(data);
     return (
-        <ResponsiveContainer width="100" height={300}>
+        <ResponsiveContainer width="100%" height={300}>
             <BarChart data={data} margin={{ top: 50 }}>
-                <CartesianGrid strokeDasharray="10 10"></CartesianGrid>
-                <XAxis dataKey='date'></XAxis>
-                <YAxis allowDecimals={false}></YAxis>
+                <CartesianGrid strokeDasharray="3 3 " />
+                <XAxis dataKey='date' />
+                <YAxis allowDecimals={false} />
                 <Tooltip />
-                <Bar dataKey='count' fill='#3b82f6' barSize={75}></Bar>
+                <Bar dataKey='count' fill='#3b82f6' barSize={75} />
             </BarChart>
         </ResponsiveContainer>
     )

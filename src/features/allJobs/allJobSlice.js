@@ -33,7 +33,6 @@ export const getAllJobs = createAsyncThunk('allJobs/getJobs', async (_, thunkAPI
                 authorization: `Bearer ${thunkAPI.getState().user.user.token}`
             }
         })
-
         return resp.data
     } catch (error) {
         return checkForUnauthorizedResponse(error, thunkAPI)
